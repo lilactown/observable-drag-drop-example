@@ -6,5 +6,4 @@ import {appState} from './streams';
 appState.onValue((props) =>
 	render(<App {...props} />, document.getElementById('app'))
 );
-
 appState.log();

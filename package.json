@@ -1,7 +1,7 @@
 {
-  "name": "react-streamable-drag-example",
+  "name": "react-streamable-drag-drop-example",
   "version": "0.0.1",
-  "description": "Example of an application of react-streamable implementing drag and drop",
+  "description": "Example of implementing drag and drop using react-streamable",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --content-base www/",
