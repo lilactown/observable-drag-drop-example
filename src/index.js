@@ -1,12 +1,12 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {App} from './view/App';
-import {dragStart, drop} from './intents';
 import {model} from './model';
+import {View} from './view';
+import {mouseOffset, droppedPosition} from './intents';
 
-const appState = model(dragStart, drop);
+const appState = model(mouseOffset, droppedPosition);
 
 appState.onValue((props) =>
-	render(<App {...props} />, document.getElementById('app'))
+	render(<View {...props} />, document.getElementById('app'))
 );
 appState.log();

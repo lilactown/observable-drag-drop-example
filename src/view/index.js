@@ -15,7 +15,7 @@ const styles = {
 	}
 };
 
-export function App(props) {
+export function View(props) {
 	const position = {
 		left: props.x,
 		top: props.y,
