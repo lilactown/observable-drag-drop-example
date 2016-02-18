@@ -4,11 +4,11 @@ import {zip, constant, merge} from 'kefir';
 const INITIAL_STATE = constant({ x: 0, y: 0 });
 
 // Application state stream
-export function model(mouseOffset, droppedPosition) {
+export function model(elementPickedUp, elementDropped) {
 	const divPosition =
 		// zip the action streams so we emit only once both
-		// `mouseOffset` and `droppedPosition` have new values
-		zip([mouseOffset, droppedPosition])
+		// `elementPickedUp` and `elementDropped` have new values
+		zip([elementPickedUp, elementDropped])
 		// we use scan to emit a dummy value when listened
 		// to render the initial view
 		.map(([offset, position]) =>

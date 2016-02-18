@@ -10,7 +10,7 @@ droppableStream
 // inside of the target when the user begins to drag so we can 
 // calculate where to place the target relative to the cursor
 // once dropped.
-export const mouseOffset =
+export const elementPickedUp =
 	droppableStream
 	.filter(({type}) => type === 'onDragStart')
 	.map(({event}) => {
@@ -22,7 +22,7 @@ export const mouseOffset =
 
 // Map drop event to the absolute position of the mouse inside 
 // of the (non-scrolled) page
-export const droppedPosition =
+export const elementDropped =
 	droppableStream
 	.filter(({type}) => type === 'onDrop')
 	.map(({event}) => {
