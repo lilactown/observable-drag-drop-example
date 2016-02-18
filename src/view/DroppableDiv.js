@@ -1,4 +1,4 @@
-import {observeComponent, fromComponent} from 'react-streamable';
+import {observeComponent, fromComponent} from 'observe-component';
 
 export const DroppableDiv =
 	observeComponent('div', ['onDragStart', 'onDrop', 'onDragOver']);

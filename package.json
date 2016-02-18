@@ -1,7 +1,7 @@
 {
-  "name": "react-streamable-drag-drop-example",
+  "name": "observe-component-drag-drop-example",
   "version": "0.0.1",
-  "description": "Example of implementing drag and drop using react-streamable",
+  "description": "Example of implementing drag and drop using React and observe-component",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --content-base www/",
@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "kefir": "^3.2.0",
+    "observe-component": "^1.0.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
   },
