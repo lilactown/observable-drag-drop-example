@@ -1,8 +1,8 @@
-import {stream as droppableStream} from '../view/DroppableDiv';
+import {dragDropStream} from '../view/DroppableDiv';
 
 // Allow the droppable component to be a droppable zone by
 // calling e.preventDefault on each 'dragover' event.
-droppableStream
+dragDropStream
 	.filter(({type}) => type === 'onDragOver')
 	.onValue(({event}) => event.preventDefault());
 
@@ -11,7 +11,7 @@ droppableStream
 // calculate where to place the target relative to the cursor
 // once dropped.
 export const elementPickedUp =
-	droppableStream
+	dragDropStream
 	.filter(({type}) => type === 'onDragStart')
 	.map(({event}) => {
 		return {
@@ -23,7 +23,7 @@ export const elementPickedUp =
 // Map drop event to the absolute position of the mouse inside 
 // of the (non-scrolled) page
 export const elementDropped =
-	droppableStream
+	dragDropStream
 	.filter(({type}) => type === 'onDrop')
 	.map(({event}) => {
 		const {clientX, clientY} = event;
