@@ -5,6 +5,7 @@ Example of implementing drag and drop using React and observe-component
 ```bash
 git clone https://github.com/Lokeh/observable-drag-drop-example.git
 cd observable-drag-drop-example/
+npm install
 npm start
 ```
 
