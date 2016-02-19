@@ -1,5 +1,5 @@
 import React from 'react';
-import {DroppableDiv} from './DroppableDiv';
+import {DropZone} from './DropZone';
 
 const styles = {
 	draggable: {
@@ -21,13 +21,13 @@ export function View(props) {
 		top: props.y,
 	};
 	return (
-		<DroppableDiv style={styles.droppable}>
+		<DropZone style={styles.droppable}>
 			<div
 			draggable
 			style={Object.assign({}, styles.draggable, position)}
 			>
 				Hello, world!
 			</div>
-		</DroppableDiv>
+		</DropZone>
 	);
 }
