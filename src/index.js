@@ -8,7 +8,7 @@ import {elementPickedUp, elementDropped} from './intents';
 
 const appState = model(elementPickedUp, elementDropped);
 
-appState.onValue((props) =>
-	render(<View {...props} />, document.getElementById('app'))
+appState.onValue((state) =>
+	render(<View {...state} />, document.getElementById('app'))
 );
 appState.log();
