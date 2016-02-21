@@ -1,29 +1,33 @@
-import {zip, constant, merge} from 'kefir';
+import {flatMap, zip, stream, constant, merge} from 'kefir';
 
 // Define the state that will be emitted on first listen.
-const INITIAL_STATE = constant({ x: 0, y: 0 });
+const INITIAL_STATE = [{ left: 0, top: 0 }, { left: 100, top: 0 }];
 
 // Application state stream
-export function model(elementPickedUp, elementDropped) {
-	const divPosition =
-		// zip the action streams so we emit only once both
-		// `elementPickedUp` and `elementDropped` have new values
-		zip([elementPickedUp, elementDropped])
-		// we use scan to emit a dummy value when listened
-		// to render the initial view
-		.map(([offset, position]) =>
-			// calculate new position of the target div
-			// relative to the cursor position inside of it
-			// when dragged
-			({
-				x: position.x - offset.x,
-				y: position.y - offset.y,
-			})
-		);
+export function model(elementsPickedUp, elementDropped) {
+	const elementsPositions =
+		merge(
+			elementsPickedUp
+			.map((pickedUp, id) =>
+				zip([pickedUp, pickedUp.flatMap(() =>
+					elementDropped.take(1)
+				)])
+				.map(([offset, position]) => ({
+					id,
+					left: position.x - offset.x,
+					top: position.y - offset.y,
+				}))
+			)
+		).scan((prevState, newState) => {
+			const {top, left} = newState;
+			return prevState.map((position, id) => {
+				if (newState.id === id) {
+					return {top, left};
+				}
+				return position;
+			});
+		}, INITIAL_STATE);
 
-	// When we merge the constant INITIAL_STATE with other streams,
-	// it will be received by the first listener.
-	// Subsequent listeners will only get values as they are
-	// received from `divPosition`. 
-	return merge([INITIAL_STATE, divPosition]);
+	return elementsPositions;
+
 }

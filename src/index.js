@@ -4,11 +4,11 @@ import {render} from 'react-dom';
 // app functions
 import {model} from './model';
 import {View} from './view';
-import {elementPickedUp, elementDropped} from './intents';
+import {elementOnePickedUp, elementTwoPickedUp, elementDropped} from './intents';
 
-const appState = model(elementPickedUp, elementDropped);
+const appState = model([elementOnePickedUp, elementTwoPickedUp], elementDropped);
 
-appState.onValue((state) =>
-	render(<View {...state} />, document.getElementById('app'))
+appState.onValue((positions) =>
+	render(<View positions={positions} />, document.getElementById('app'))
 );
 appState.log();

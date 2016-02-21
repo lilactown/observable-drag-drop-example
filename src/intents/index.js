@@ -1,5 +1,6 @@
 import {fromComponent} from 'observe-component'
 import {DropZone} from '../view/DropZone';
+import {DraggableOne, DraggableTwo} from '../view/Draggable';
 
 // Allow the drop zone component to be a droppable area by
 // calling e.preventDefault on each 'dragover' event.
@@ -10,8 +11,18 @@ fromComponent(DropZone, ['onDragOver'])
 // inside of the target when the user begins to drag so we can 
 // calculate where to place the target relative to the cursor
 // once dropped.
-export const elementPickedUp =
-	fromComponent(DropZone, ['onDragStart'])
+export const elementOnePickedUp =
+	fromComponent(DraggableOne, ['onDragStart'])
+	.map(({event}) => {
+		console.log('dragg');
+		return {
+			x: event.clientX - event.target.offsetLeft,
+			y: event.clientY - event.target.offsetTop
+		};
+	});
+
+export const elementTwoPickedUp =
+	fromComponent(DraggableTwo, ['onDragStart'])
 	.map(({event}) => {
 		return {
 			x: event.clientX - event.target.offsetLeft,
