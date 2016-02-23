@@ -1,16 +1,16 @@
-import {flatMap, zip, stream, constant, merge} from 'kefir';
+import {flatMap, zip, merge} from 'kefir';
 
 // Define the state that will be emitted on first listen.
 const INITIAL_STATE = [{ left: 0, top: 0 }, { left: 100, top: 0 }];
 
 // Application state stream
-export function model(elementsPickedUp, elementDropped) {
+export function model(componentsPickedUp, componentDropped) {
 	const elementsPositions =
 		merge(
-			elementsPickedUp
+			componentsPickedUp
 			.map((pickedUp, id) =>
 				zip([pickedUp, pickedUp.flatMap(() =>
-					elementDropped.take(1)
+					componentDropped.take(1)
 				)])
 				.map(([offset, position]) => ({
 					id,

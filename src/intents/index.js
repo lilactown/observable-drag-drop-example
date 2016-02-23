@@ -1,4 +1,4 @@
-import {fromComponent} from 'observe-component'
+import {fromComponent} from 'observe-component/kefir'
 import {DropZone} from '../view/DropZone';
 import {DraggableOne, DraggableTwo} from '../view/Draggable';
 
@@ -11,28 +11,21 @@ fromComponent(DropZone, ['onDragOver'])
 // inside of the target when the user begins to drag so we can 
 // calculate where to place the target relative to the cursor
 // once dropped.
-export const elementOnePickedUp =
-	fromComponent(DraggableOne, ['onDragStart'])
-	.map(({event}) => {
-		console.log('dragg');
-		return {
-			x: event.clientX - event.target.offsetLeft,
-			y: event.clientY - event.target.offsetTop
-		};
-	});
-
-export const elementTwoPickedUp =
-	fromComponent(DraggableTwo, ['onDragStart'])
-	.map(({event}) => {
-		return {
-			x: event.clientX - event.target.offsetLeft,
-			y: event.clientY - event.target.offsetTop
-		};
-	});
+export function dragActions(...components) {
+	return components.map((component) => 
+		fromComponent(component, ['onDragStart'])
+		.map(({event}) => {
+			return {
+				x: event.clientX - event.target.offsetLeft,
+				y: event.clientY - event.target.offsetTop
+			};
+		})
+	);
+}
 
 // Map drop event to the absolute position of the mouse inside 
 // of the (non-scrolled) page
-export const elementDropped =
+export const droppedActions =
 	fromComponent(DropZone, ['onDrop'])
 	.map(({event}) => {
 		const {clientX, clientY} = event;

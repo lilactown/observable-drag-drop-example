@@ -4,9 +4,10 @@ import {render} from 'react-dom';
 // app functions
 import {model} from './model';
 import {View} from './view';
-import {elementOnePickedUp, elementTwoPickedUp, elementDropped} from './intents';
+import {dragActions, droppedActions} from './intents';
+import {DraggableOne, DraggableTwo} from './view/Draggable';
 
-const appState = model([elementOnePickedUp, elementTwoPickedUp], elementDropped);
+const appState = model(dragActions(DraggableOne, DraggableTwo), droppedActions);
 
 appState.onValue((positions) =>
 	render(<View positions={positions} />, document.getElementById('app'))

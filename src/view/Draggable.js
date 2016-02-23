@@ -1,5 +1,5 @@
 import React from 'react';
-import {observeComponent} from 'observe-component';
+import {observeComponent} from 'observe-component/kefir';
 
 function Draggable(props) {
 	return (<div draggable {...props} />);
