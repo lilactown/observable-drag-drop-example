@@ -1,3 +1,4 @@
+import {flatMap, zip, merge} from 'kefir';
 import {fromComponent} from 'observe-component/kefir'
 import {DropZone} from '../view/DropZone';
 import {DraggableOne, DraggableTwo} from '../view/Draggable';
@@ -11,9 +12,11 @@ fromComponent(DropZone, ['onDragOver'])
 // inside of the target when the user begins to drag so we can 
 // calculate where to place the target relative to the cursor
 // once dropped.
-export function dragActions(...components) {
-	return components.map((component) => 
-		fromComponent(component, ['onDragStart'])
+const pickedUp =  
+	[DraggableOne, DraggableTwo]
+	.map((component) => fromComponent(component, ['onDragStart']))
+	.map((observable) =>
+		observable
 		.map(({event}) => {
 			return {
 				x: event.clientX - event.target.offsetLeft,
@@ -21,11 +24,10 @@ export function dragActions(...components) {
 			};
 		})
 	);
-}
 
 // Map drop event to the absolute position of the mouse inside 
 // of the (non-scrolled) page
-export const droppedActions =
+const dropped =
 	fromComponent(DropZone, ['onDrop'])
 	.map(({event}) => {
 		const {clientX, clientY} = event;
@@ -34,3 +36,27 @@ export const droppedActions =
 			y: clientY
 		};
 	});
+
+function combineDragDrop(dropzone, element, id) {
+	// get the dropped action only once, after picked up
+	const droppedAction =
+		element
+		.flatMap(() => dropzone.take(1));
+
+	return zip([element, droppedAction]);
+}
+
+function newPosition(id, [offset, position]) {
+	return {
+		id,
+		left: position.x - offset.x,
+		top: position.y - offset.y,
+	};
+}
+
+export const dragDrop = merge(
+	pickedUp
+	.map(combineDragDrop.bind(null, dropped))
+	.map((action, id) => 
+		action.map(newPosition.bind(null, id)))
+);
