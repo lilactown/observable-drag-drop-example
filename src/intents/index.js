@@ -12,11 +12,14 @@ fromComponent(DropZone, ['onDragOver'])
 // inside of the target when the user begins to drag so we can 
 // calculate where to place the target relative to the cursor
 // once dropped.
-const pickedUp =  
+const pickedUp =
+	// list of draggable elements - could add more
 	[DraggableOne, DraggableTwo]
+	// map component to its observable stream
 	.map((component) => fromComponent(component, ['onDragStart']))
 	.map((observable) =>
 		observable
+		// transform each observable into stream of x, y mouse pos
 		.map(({event}) => {
 			return {
 				x: event.clientX - event.target.offsetLeft,
@@ -38,15 +41,14 @@ const dropped =
 	});
 
 function combineDragDrop(dropzone, element, id) {
-	// get the dropped action only once, after picked up
-	const droppedAction =
-		element
-		.flatMap(() => dropzone.take(1));
-
-	return zip([element, droppedAction]);
+	// get the dropped action after picked up, only once
+	return zip([element, element.flatMap(() => dropzone.take(1))]);
 }
 
 function newPosition(id, [offset, position]) {
+	// return the new left and top values for our draggable element
+	// along with id in list to differentiate between other
+	// element positions
 	return {
 		id,
 		left: position.x - offset.x,
@@ -54,6 +56,7 @@ function newPosition(id, [offset, position]) {
 	};
 }
 
+// our fully transformed drag-drop stream of new element positions
 export const dragDrop = merge(
 	pickedUp
 	.map(combineDragDrop.bind(null, dropped))

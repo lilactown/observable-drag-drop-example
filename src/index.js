@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// app functions
 import {model} from './model';
 import {View} from './view';
 import {dragDrop} from './intents';

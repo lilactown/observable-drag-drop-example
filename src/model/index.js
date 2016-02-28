@@ -1,5 +1,3 @@
-import {flatMap, zip, merge} from 'kefir';
-
 // Define the state that will be emitted on first listen.
 const INITIAL_STATE = [{ left: 0, top: 0 }, { left: 100, top: 0 }];
 
