@@ -1,14 +1,16 @@
 import React from 'react';
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 
-// app functions
 import {model} from './model';
 import {View} from './view';
-import {elementPickedUp, elementDropped} from './intents';
+import {dragDrop} from './intents';
 
-const appState = model(elementPickedUp, elementDropped);
-
-appState.onValue((state) =>
-	render(<View {...state} />, document.getElementById('app'))
-);
+const INITIAL_STATE = { x: 0, y: 0 };
+const appState = model(dragDrop);
 appState.log();
+
+const render = (state) =>
+	ReactDOM.render(<View {...state} />, document.getElementById('app'));
+
+appState.onValue(render);
+render(INITIAL_STATE);
