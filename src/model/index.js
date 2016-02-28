@@ -22,11 +22,11 @@ function newElementPosition(id, [offset, position]) {
 }
 
 // Application state stream
-export function model(componentsPickedUp, componentDropped) {
+export function model(draggedActions, droppedActions) {
 	const elementsPositions =
 		merge(
-			componentsPickedUp
-			.map(dragDropAction.bind(null, componentDropped))
+			draggedActions
+			.map(dragDropAction.bind(null, droppedActions))
 			.map((action, id) => action.map(newElementPosition.bind(null, id)))
 		).scan((prevState, newState) => {
 			const {top, left} = newState;
