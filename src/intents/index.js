@@ -40,9 +40,10 @@ const dropped =
 		};
 	});
 
-function combineDragDrop(dropzone, element, id) {
+function combineDragDrop(dropzone, pickedup, id) {
 	// get the dropped action after picked up, only once
-	return zip([element, element.flatMap(() => dropzone.take(1))]);
+	return zip([pickedup, pickedup.flatMap(() => dropzone.take(1))]);
+	// return zip([pickedup, pickedup.takeUntilBy(dropzone)]);
 }
 
 function newPosition(id, [offset, position]) {
@@ -57,7 +58,7 @@ function newPosition(id, [offset, position]) {
 }
 
 // our fully transformed drag-drop stream of new element positions
-export const dragDrop = merge(
+export const intent = merge(
 	pickedUp
 	.map(combineDragDrop.bind(null, dropped))
 	.map((action, id) => 

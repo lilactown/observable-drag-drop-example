@@ -13,7 +13,11 @@ export function model(dragDrop) {
 				}
 				return position;
 			});
-		}, INITIAL_STATE);
+		}, INITIAL_STATE)
+		.map((positionArray) => ({
+			position1: positionArray[0],
+			position2: positionArray[1],
+		}));
 
 	return newPositions;
 

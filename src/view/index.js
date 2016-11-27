@@ -1,6 +1,7 @@
 import React from 'react';
 import {DropZone} from './DropZone';
 import {DraggableOne, DraggableTwo} from './Draggable';
+import {connectedView} from '../libs/connectedView';
 
 const styles = {
 	draggable: {
@@ -16,8 +17,7 @@ const styles = {
 	}
 };
 
-export function View({positions}) {
-	const [position1, position2] = positions
+function ViewComponent({position1, position2}) {
 	return (
 		<DropZone style={styles.droppable}>
 			<DraggableOne
@@ -33,3 +33,5 @@ export function View({positions}) {
 		</DropZone>
 	);
 }
+
+export const view = connectedView(ViewComponent);
